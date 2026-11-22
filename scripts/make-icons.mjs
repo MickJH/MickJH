@@ -1,4 +1,4 @@
-// Renders the favicon set from the "mjh" logo mark (an "m" plus the blue square):
+// Renders the favicon set: an "MH" monogram (H in brand blue) on the dark tile:
 //   src/app/icon.png (512), src/app/apple-icon.png (180), src/app/favicon.ico (16/32/48)
 // Run once after changing the design:
 //   node scripts/make-icons.mjs
@@ -38,32 +38,18 @@ function icon(size, { rounded = true } = {}) {
     },
     h(
       "div",
-      { style: { display: "flex", alignItems: "flex-end" } },
-      h(
-        "div",
-        {
-          style: {
-            display: "flex",
-            color: FG,
-            fontFamily: "Space Grotesk",
-            fontSize: 46 * s,
-            fontWeight: 700,
-            lineHeight: 0.8,
-          },
-        },
-        "m",
-      ),
-      h("div", {
+      {
         style: {
           display: "flex",
-          width: 9 * s,
-          height: 9 * s,
-          marginLeft: 2.5 * s,
-          marginBottom: 2.2 * s,
-          background: BRAND,
-          borderRadius: 1.5 * s,
+          fontFamily: "Space Grotesk",
+          fontSize: 35 * s,
+          fontWeight: 700,
+          lineHeight: 0.8,
+          letterSpacing: -2 * s,
         },
-      }),
+      },
+      h("span", { style: { color: FG } }, "M"),
+      h("span", { style: { color: BRAND } }, "H"),
     ),
   );
 }
