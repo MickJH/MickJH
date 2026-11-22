@@ -1,4 +1,5 @@
-// Renders the favicon set: an "MH" monogram (H in pale blue) on a brand-blue gradient tile:
+// Renders the favicon set: a terminal prompt ">_" (white chevron, brand-blue cursor)
+// on the dark tile:
 //   src/app/icon.png (512), src/app/apple-icon.png (180), src/app/favicon.ico (16/32/48)
 // Run once after changing the design:
 //   node scripts/make-icons.mjs
@@ -6,24 +7,12 @@ import { writeFile } from "node:fs/promises";
 import { createElement as h } from "react";
 import { ImageResponse } from "next/og.js";
 
-// Space Grotesk Bold, the site's display font (Google Fonts serves TTF to a bare user agent).
-const css = await (
-  await fetch("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700")
-).text();
-const fontUrl = css.match(/src:\s*url\(([^)]+)\)/)[1];
-const fontData = await (await fetch(fontUrl)).arrayBuffer();
-const fonts = [
-  { name: "Space Grotesk", data: fontData, weight: 700, style: "normal" },
-];
+const BG = "#060b1f";
+const FG = "#eef3ff";
+const BRAND = "#4f7bff";
 
-// Diagonal brand-blue gradient, like the site's bright tiles.
-const BG = "linear-gradient(135deg, #4f7bff, #2f5bff 55%, #1a2fa8)";
-const FG = "#ffffff";
-const ACCENT = "#bcd2ff";
-
-/** One icon at `size` px; proportions scale so small sizes stay crisp. */
+/** One icon at `size` px, drawn as SVG on a 64-unit grid so every size stays sharp. */
 function icon(size, { rounded = true } = {}) {
-  const s = size / 64;
   return h(
     "div",
     {
@@ -31,26 +20,22 @@ function icon(size, { rounded = true } = {}) {
         display: "flex",
         width: "100%",
         height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundImage: BG,
-        borderRadius: rounded ? 14 * s : 0,
+        background: BG,
+        borderRadius: rounded ? size * 0.22 : 0,
       },
     },
     h(
-      "div",
-      {
-        style: {
-          display: "flex",
-          fontFamily: "Space Grotesk",
-          fontSize: 35 * s,
-          fontWeight: 700,
-          lineHeight: 0.8,
-          letterSpacing: -2 * s,
-        },
-      },
-      h("span", { style: { color: FG } }, "M"),
-      h("span", { style: { color: ACCENT } }, "H"),
+      "svg",
+      { width: size, height: size, viewBox: "0 0 64 64" },
+      h("polyline", {
+        points: "17,21 29,32 17,43",
+        fill: "none",
+        stroke: FG,
+        strokeWidth: 6,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+      }),
+      h("rect", { x: 33, y: 39, width: 15, height: 6, rx: 1.5, fill: BRAND }),
     ),
   );
 }
@@ -59,7 +44,6 @@ async function png(size, opts) {
   const res = new ImageResponse(icon(size, opts), {
     width: size,
     height: size,
-    fonts,
   });
   return Buffer.from(await res.arrayBuffer());
 }
