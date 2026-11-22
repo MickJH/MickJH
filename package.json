@@ -1,19 +1,35 @@
 {
-  "name": "portfolio-website",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "mickholster.nl",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "compile:scss": "node-sass sass/main.scss css/style.css -w",
-    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.css -o css/style.css",
-    "compress:css": "node-sass css/style.css css/style.css --output-style compressed",
-    "build": "npm-run-all prefix:css compress:css"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "serve out",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "author": "Mick Holster",
+  "dependencies": {
+    "motion": "^14.12.0",
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
+  },
   "devDependencies": {
-    "autoprefixer": "^10.3.1",
-    "node-sass": "^6.0.1",
-    "npm-run-all": "^4.1.5",
-    "postcss-cli": "^8.3.1"
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "serve": "^14.2.7",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5"
   }
 }
