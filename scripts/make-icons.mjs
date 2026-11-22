@@ -1,4 +1,4 @@
-// Renders the favicon set: an "MH" monogram (H in brand blue) on the dark tile:
+// Renders the favicon set: an "MH" monogram (H in pale blue) on a brand-blue gradient tile:
 //   src/app/icon.png (512), src/app/apple-icon.png (180), src/app/favicon.ico (16/32/48)
 // Run once after changing the design:
 //   node scripts/make-icons.mjs
@@ -16,9 +16,10 @@ const fonts = [
   { name: "Space Grotesk", data: fontData, weight: 700, style: "normal" },
 ];
 
-const BG = "#060b1f";
-const FG = "#eef3ff";
-const BRAND = "#4f7bff";
+// Diagonal brand-blue gradient, like the site's bright tiles.
+const BG = "linear-gradient(135deg, #4f7bff, #2f5bff 55%, #1a2fa8)";
+const FG = "#ffffff";
+const ACCENT = "#bcd2ff";
 
 /** One icon at `size` px; proportions scale so small sizes stay crisp. */
 function icon(size, { rounded = true } = {}) {
@@ -32,7 +33,7 @@ function icon(size, { rounded = true } = {}) {
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
-        background: BG,
+        backgroundImage: BG,
         borderRadius: rounded ? 14 * s : 0,
       },
     },
@@ -49,7 +50,7 @@ function icon(size, { rounded = true } = {}) {
         },
       },
       h("span", { style: { color: FG } }, "M"),
-      h("span", { style: { color: BRAND } }, "H"),
+      h("span", { style: { color: ACCENT } }, "H"),
     ),
   );
 }
